@@ -14,6 +14,7 @@
 		DED7F1781B6DB1A40011C968 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DED7F1771B6DB1A40011C968 /* Images.xcassets */; };
 		DED7F17B1B6DB1A40011C968 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DED7F1791B6DB1A40011C968 /* LaunchScreen.xib */; };
 		DED7F1871B6DB1A40011C968 /* CellLabelsLayoutCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DED7F1861B6DB1A40011C968 /* CellLabelsLayoutCollectionTests.m */; };
+		DED7F1921B6DB2B70011C968 /* ZZHorizontalLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DED7F1911B6DB2B70011C968 /* ZZHorizontalLabelCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		DED7F1801B6DB1A40011C968 /* CellLabelsLayoutCollectionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CellLabelsLayoutCollectionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DED7F1851B6DB1A40011C968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DED7F1861B6DB1A40011C968 /* CellLabelsLayoutCollectionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CellLabelsLayoutCollectionTests.m; sourceTree = "<group>"; };
+		DED7F1901B6DB2B70011C968 /* ZZHorizontalLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZHorizontalLabelCell.h; sourceTree = "<group>"; };
+		DED7F1911B6DB2B70011C968 /* ZZHorizontalLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZHorizontalLabelCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 		DED7F15E1B6DB1A40011C968 = {
 			isa = PBXGroup;
 			children = (
+				DED7F1901B6DB2B70011C968 /* ZZHorizontalLabelCell.h */,
+				DED7F1911B6DB2B70011C968 /* ZZHorizontalLabelCell.m */,
 				DED7F1691B6DB1A40011C968 /* CellLabelsLayoutCollection */,
 				DED7F1831B6DB1A40011C968 /* CellLabelsLayoutCollectionTests */,
 				DED7F1681B6DB1A40011C968 /* Products */,
@@ -219,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DED7F1921B6DB2B70011C968 /* ZZHorizontalLabelCell.m in Sources */,
 				DED7F1731B6DB1A40011C968 /* ViewController.m in Sources */,
 				DED7F1701B6DB1A40011C968 /* AppDelegate.m in Sources */,
 				DED7F16D1B6DB1A40011C968 /* main.m in Sources */,
@@ -350,6 +356,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CellLabelsLayoutCollection/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -360,6 +367,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CellLabelsLayoutCollection/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
