@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+//iOS system
+#define IOS7_OR_LATER               ([[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending )
+#define IOS8_OR_LATER               ([[[UIDevice currentDevice] systemVersion] compare:@"8.0"] != NSOrderedAscending )
+
 /**
  ZZHorizonLayout : layout(mainly aliment of 2 labels) type of text alignments
  
@@ -29,5 +33,9 @@ typedef enum : NSUInteger {
  */
 
 @interface ZZHorizontalLabelsCell : UITableViewCell
+
+@property (weak, nonatomic) UILabel *labelLeft;
+@property (weak, nonatomic) UILabel *labelRight;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier horozonLayout:(ZZHorizonLayout)layout;
 @end
