@@ -38,4 +38,5 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) UILabel *labelRight;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier horozonLayout:(ZZHorizonLayout)layout;
+- (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier layoutType:(ZZHorizonLayout)layout contentInset:(UIEdgeInsets)inset padding:(CGFloat)paddingLen leftPreferredWidth:(CGFloat)leftWidth;
 @end

@@ -22,6 +22,9 @@
 @interface ZZHorizontalLabelsCell ()
 {
     ZZHorizonLayout horizonLayout;
+    UIEdgeInsets edgeInstets;
+    CGFloat leftWidth;
+    CGFloat padding;
 }
 @end
 
@@ -33,6 +36,24 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
         horizonLayout = layout;
+        edgeInstets = UIEdgeInsetsMake(kEdgeInsetTop, kEdgeInsetLeft, kEdgeInsetBottom, kEdgeInsetRight);
+        leftWidth = kLeftLabelWidth;
+        padding = kLabelPadding;
+        
+        [self p_addSubviews];
+        [self p_addConstraints];
+    }
+    return self;
+}
+- (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier layoutType:(ZZHorizonLayout)layout contentInset:(UIEdgeInsets)inset padding:(CGFloat)paddingLen leftPreferredWidth:(CGFloat)lWidth
+{
+    if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier])
+    {
+        horizonLayout = layout;
+        edgeInstets = inset;
+        leftWidth = lWidth;
+        padding = paddingLen;
+    
         [self p_addSubviews];
         [self p_addConstraints];
     }
@@ -59,8 +80,8 @@
 {
     [super layoutSubviews];
     
-    self.labelLeft.preferredMaxLayoutWidth = kLeftLabelWidth;
-    self.labelRight.preferredMaxLayoutWidth = CGRectGetWidth(self.bounds) - kEdgeInsetLeft - kLeftLabelWidth - kLabelPadding - kEdgeInsetRight ;
+    self.labelLeft.preferredMaxLayoutWidth = leftWidth;
+    self.labelRight.preferredMaxLayoutWidth = CGRectGetWidth(self.bounds) - edgeInstets.left - leftWidth - padding - edgeInstets.right ;
 }
 
 #pragma mark - Private
@@ -89,16 +110,16 @@
     {
         case ZZHorizonLayoutCenter:
         {
-            NSLayoutConstraint *leftLabelLeading = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kEdgeInsetLeft];
-            NSLayoutConstraint *leftLabelTop = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kEdgeInsetTop];
-            NSLayoutConstraint *leftLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kEdgeInsetBottom];
-            NSLayoutConstraint *leftLabelWidth = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:.0 constant:kLeftLabelWidth];
+            NSLayoutConstraint *leftLabelLeading = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:edgeInstets.left];
+            NSLayoutConstraint *leftLabelTop = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edgeInstets.top];
+            NSLayoutConstraint *leftLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeBottom multiplier:1.0 constant:edgeInstets.bottom];
+            NSLayoutConstraint *leftLabelWidth = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:.0 constant:leftWidth];
             
-            NSLayoutConstraint *labelPadding = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:kLabelPadding];
+            NSLayoutConstraint *labelPadding = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:padding];
             
-            NSLayoutConstraint *rightLabelTop = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kEdgeInsetTop];
-            NSLayoutConstraint *rightLabelTrailing = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:kEdgeInsetRight];
-            NSLayoutConstraint *rightLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kEdgeInsetBottom];
+            NSLayoutConstraint *rightLabelTop = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edgeInstets.top];
+            NSLayoutConstraint *rightLabelTrailing = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:edgeInstets.right];
+            NSLayoutConstraint *rightLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeBottom multiplier:1.0 constant:edgeInstets.bottom];
             
             [self.labelLeft setContentHuggingPriority:UILayoutPriorityDefaultLow  forAxis:UILayoutConstraintAxisHorizontal];
             [self.labelLeft setContentHuggingPriority:UILayoutPriorityDefaultLow  forAxis:UILayoutConstraintAxisVertical];
@@ -115,16 +136,16 @@
         }
         case ZZHorizonLayoutBottom:
         {
-            NSLayoutConstraint *leftLabelLeading = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kEdgeInsetLeft];
-            NSLayoutConstraint *leftLabelTop = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kEdgeInsetTop];
-            NSLayoutConstraint *leftLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kEdgeInsetBottom];
-            NSLayoutConstraint *leftLabelWidth = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:.0 constant:kLeftLabelWidth];
+            NSLayoutConstraint *leftLabelLeading = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:edgeInstets.left];
+            NSLayoutConstraint *leftLabelTop = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edgeInstets.top];
+            NSLayoutConstraint *leftLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeBottom multiplier:1.0 constant:edgeInstets.bottom];
+            NSLayoutConstraint *leftLabelWidth = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:.0 constant:leftWidth];
             
-            NSLayoutConstraint *labelPadding = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:kLabelPadding];
+            NSLayoutConstraint *labelPadding = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:padding];
             
-            NSLayoutConstraint *rightLabelTop = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kEdgeInsetTop];
-            NSLayoutConstraint *rightLabelTrailing = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:kEdgeInsetRight];
-            NSLayoutConstraint *rightLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kEdgeInsetBottom];
+            NSLayoutConstraint *rightLabelTop = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edgeInstets.top];
+            NSLayoutConstraint *rightLabelTrailing = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:edgeInstets.right];
+            NSLayoutConstraint *rightLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeBottom multiplier:1.0 constant:edgeInstets.bottom];
             
             [self.labelLeft setContentHuggingPriority:UILayoutPriorityDefaultLow +1 forAxis:UILayoutConstraintAxisHorizontal];
             [self.labelLeft setContentHuggingPriority:UILayoutPriorityDefaultLow + 1  forAxis:UILayoutConstraintAxisVertical];
@@ -141,16 +162,16 @@
         }
         case ZZHorizonLayoutTop:
         {
-            NSLayoutConstraint *leftLabelLeading = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kEdgeInsetLeft];
-            NSLayoutConstraint *leftLabelTop = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kEdgeInsetTop];
-            NSLayoutConstraint *leftLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.labelLeft attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kEdgeInsetBottom];
-            NSLayoutConstraint *leftLabelWidth = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:.0 constant:kLeftLabelWidth];
+            NSLayoutConstraint *leftLabelLeading = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:edgeInstets.left];
+            NSLayoutConstraint *leftLabelTop = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edgeInstets.top];
+            NSLayoutConstraint *leftLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.labelLeft attribute:NSLayoutAttributeBottom multiplier:1.0 constant:edgeInstets.bottom];
+            NSLayoutConstraint *leftLabelWidth = [NSLayoutConstraint constraintWithItem:self.labelLeft attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:.0 constant:leftWidth];
             
-            NSLayoutConstraint *labelPadding = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:kLabelPadding];
+            NSLayoutConstraint *labelPadding = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.labelLeft attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:padding];
             
-            NSLayoutConstraint *rightLabelTop = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kEdgeInsetTop];
-            NSLayoutConstraint *rightLabelTrailing = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:kEdgeInsetRight];
-            NSLayoutConstraint *rightLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kEdgeInsetBottom];
+            NSLayoutConstraint *rightLabelTop = [NSLayoutConstraint constraintWithItem:self.labelRight attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edgeInstets.top];
+            NSLayoutConstraint *rightLabelTrailing = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:edgeInstets.right];
+            NSLayoutConstraint *rightLabelBottom = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.labelRight attribute:NSLayoutAttributeBottom multiplier:1.0 constant:edgeInstets.bottom];
             rightLabelBottom.priority = UILayoutPriorityDefaultLow - 1;
             
             [self.labelLeft setContentHuggingPriority:UILayoutPriorityDefaultLow  forAxis:UILayoutConstraintAxisHorizontal];
