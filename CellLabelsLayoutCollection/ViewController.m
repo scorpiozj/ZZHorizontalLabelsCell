@@ -33,7 +33,7 @@ static NSString *kCellIdentifier = @"kCellIdentifier";
     
     
 #warning - Testing here
-    layoutCell = ZZHorizonLayoutTop;
+    layoutCell = ZZHorizonLayoutCenter;
 
 }
 
@@ -55,9 +55,11 @@ static NSString *kCellIdentifier = @"kCellIdentifier";
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
         if (!cell)
         {
-            cell = [[ZZHorizontalLabelsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier horozonLayout:layoutCell];
+//            cell = [[ZZHorizontalLabelsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier horozonLayout:layoutCell];
+            cell = [[ZZHorizontalLabelsCell alloc] initWithReuseIdentifier:kCellIdentifier layoutType:layoutCell contentInset:UIEdgeInsetsMake(5, 15, 5, 5) padding:10 leftPreferredWidth:120];
         }
     }
+    cell.labelRight.textAlignment = NSTextAlignmentRight;
     NSDictionary *dic = self.mArray[indexPath.row];
     cell.labelLeft.text = dic[leftKey];
     cell.labelRight.text = dic[rightKey];
@@ -80,6 +82,7 @@ static NSString *kCellIdentifier = @"kCellIdentifier";
     NSDictionary *dic = self.mArray[indexPath.row];
     cell.labelLeft.text = dic[leftKey];
     cell.labelRight.text = dic[rightKey];
+    cell.labelRight.textAlignment = NSTextAlignmentRight;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
